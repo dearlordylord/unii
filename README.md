@@ -4,6 +4,10 @@ Independent TypeScript implementation of the UNII memory core, with the Lisp imp
 
 The specification lives in [spec/MEMORY.md](spec/MEMORY.md). The current integration boundaries and validation limits are in [docs/BOUNDARIES.md](docs/BOUNDARIES.md).
 
+## Install
+
+The npm package name is `@dearlordylord/unii` (UNII). This version is prepared for publication; it has not yet been published. After publication, install with `npm install @dearlordylord/unii`. Before publication, use the tarball built by `npm pack` or `npm link` for local development. This is an ESM package with TypeScript declarations.
+
 ## Use
 
 ```ts
@@ -24,7 +28,7 @@ Short sources need no LLM. For longer sources, pass `backend` to `Memory.open` a
 
 Use `attempts()`, `usage()`, `status()` and `subscribe()` for diagnostics. `records()`, `nodes()`, `zoom()` and `date()` expose stored material. A pending or failed snapshot has no usable prompt text.
 
-InMemoryStorage keeps data only in its instance. Supply a Storage implementation for persistence; the core does not choose a filesystem path. Backend and Storage are exported TypeScript interfaces. The package is currently private while the initial integration surface is evaluated.
+InMemoryStorage keeps data only in its instance. Supply a Storage implementation for persistence; the core does not choose a filesystem path. Backend and Storage are exported TypeScript interfaces.
 
 ## Develop
 
@@ -44,3 +48,11 @@ git -C .references/pi-optchat checkout 2bdbd4df63c696fabc06ee9bc616245083069097
 ```
 
 Source pins are in `spec/sources.json`. Adapted code is tracked normally and retains its MIT attribution. The Lisp reference is a submodule so its version can be updated deliberately.
+
+## Methodology and attribution
+
+[docs/METHODOLOGY.md](docs/METHODOLOGY.md) records the extraction process, reference roles, interface choices, validation and its limits. [docs/RELEASING.md](docs/RELEASING.md) records package checks and publication steps.
+
+Copyright (c) 2026 Igor Loskutov. This implementation and its original documentation use the standard [MIT license](LICENSE), without additional exceptions. Tree primitives are adapted from Jonas Silva's MIT-licensed pi-optchat; its full copyright and permission notice are preserved in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and in the npm package.
+
+The memory design is by [Victor Taelin](https://gist.github.com/VictorTaelin/91837951a5ce5b38f341ec1ba1df6449), originally OptChat, subsequently UniiChat. Upstream specification and prompt text are not bundled or relicensed. This is an independent implementation, not an official UNII release. The Lisp behavioral oracle is [unii-memory](https://github.com/dearlordylord/unii-memory), by Igor Loskutov. Implementation assistance: Codex:gpt-6-1-sol.

@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Igor Loskutov. SPDX-License-Identifier: MIT
+// Assisted-by: Codex:gpt-6-1-sol
 export interface Address { level: number; index: number }
 export interface RecordInput { kind: string; text: string }
 export interface MemoryRecord extends RecordInput { id: number; date: string }

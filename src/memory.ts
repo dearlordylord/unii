@@ -1,6 +1,7 @@
+import type { Address, Attempt, Backend, Checkpoint, CompressionRequest, MemoryEvent, MemoryOptions, MemoryRecord, Observation, Policy, Receipt, Snapshot, Storage, Summary, Usage, UsageCounters } from './types.js';
+// Copyright (c) 2026 Igor Loskutov. SPDX-License-Identifier: MIT
 // Independent boundary/scheduler; tree primitives adapted from pi-optchat.
 // Assisted-by: Codex:gpt-6-1-sol
-import type { Address, Attempt, Backend, Checkpoint, CompressionRequest, MemoryEvent, MemoryOptions, MemoryRecord, Observation, Policy, Receipt, Snapshot, Storage, Summary, Usage, UsageCounters } from './types.js';
 import { InMemoryStorage } from './storage.js';
 import { bytes, end, flat, key, partition, prefix, render, span, splitUtf8, start, validAddress, View } from './tree.js';
 const defaults: Policy = { nodeBytes: 512, recordBytes: 30000, pageBytes: 4000, resultKind: 'echo', mainHigh: 128000, mainLow: 64000, compactionHigh: 32000, compactionLow: 16000, concurrency: 8, maxAttempts: 5, diagnosticLimit: 100 };

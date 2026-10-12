@@ -1,6 +1,8 @@
-// Adapted from pi-optchat (Jonas), MIT. See THIRD_PARTY_NOTICES.md.
-// Assisted-by: Codex:gpt-6-1-sol
 import type { Address, Summary } from './types.js';
+// Copyright (c) 2026 Jonas Silva; adaptations copyright (c) 2026 Igor Loskutov.
+// SPDX-License-Identifier: MIT
+// Adapted from pi-optchat. See THIRD_PARTY_NOTICES.md for its full MIT notice.
+// Assisted-by: Codex:gpt-6-1-sol
 const encoder = new TextEncoder();
 export const bytes = (text: string): number => encoder.encode(text).length;
 export const key = (p: Address): string => `${p.level}/${p.index}`;

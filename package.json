@@ -1,10 +1,21 @@
 {
   "name": "@dearlordylord/unii",
   "version": "0.1.0",
-  "private": true,
   "description": "Independent UNII memory core with caller-owned compression and storage",
   "type": "module",
   "license": "MIT",
+  "author": {
+    "name": "Igor Loskutov",
+    "email": "igor.loskutoff@gmail.com",
+    "url": "https://github.com/dearlordylord"
+  },
+  "contributors": [
+    { "name": "Jonas Silva", "url": "https://github.com/jonaslsaa" }
+  ],
+  "keywords": ["unii", "memory", "llm", "summarization", "typescript"],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "publishConfig": { "access": "public", "registry": "https://registry.npmjs.org/" },
   "engines": {
     "node": ">=22"
   },
@@ -27,7 +38,10 @@
     "typecheck": "tsc -p tsconfig.test.json --noEmit",
     "test": "tsx --test test/*.test.ts",
     "test:oracle": "tsx scripts/lisp-oracle.ts",
-    "check": "npm run typecheck && npm test && npm run test:oracle && npm run build"
+    "test:package": "node scripts/package-smoke.mjs",
+    "check": "npm run typecheck && npm test && npm run test:oracle && npm run build && npm run test:package",
+    "prepack": "npm run build",
+    "prepublishOnly": "npm run check"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",

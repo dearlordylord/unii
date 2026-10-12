@@ -1,4 +1,6 @@
 import type { Checkpoint, MemoryRecord, Storage, StoredMemory, Summary } from './types.js';
+// Copyright (c) 2026 Igor Loskutov. SPDX-License-Identifier: MIT
+// Assisted-by: Codex:gpt-6-1-sol
 import { key } from './tree.js';
 /** RAM-only adapter. Retains data across close/open of this same instance, not process exit. */
 export class InMemoryStorage implements Storage {
