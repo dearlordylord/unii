@@ -1,0 +1,3 @@
+[submodule "references/lisp"]
+	path = references/lisp
+	url = https://github.com/dearlordylord/unii-memory.git

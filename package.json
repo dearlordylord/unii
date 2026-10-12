@@ -1,0 +1,38 @@
+{
+  "name": "@dearlordylord/unii",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Independent UNII memory core with caller-owned compression and storage",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "spec",
+    "docs",
+    "README.md",
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.test.json --noEmit",
+    "test": "tsx --test test/*.test.ts",
+    "test:oracle": "tsx scripts/lisp-oracle.ts",
+    "check": "npm run typecheck && npm test && npm run test:oracle && npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.9.0",
+    "tsx": "^4.20.0",
+    "fast-check": "^4.0.0"
+  }
+}

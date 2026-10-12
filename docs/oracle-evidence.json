@@ -1,0 +1,12 @@
+{
+  "oracleCommit": "7567c83f9b68a7d51c8971ade104a3d0a1f1ecde",
+  "inputRecords": 130,
+  "storedRecords": 131,
+  "nodes": 259,
+  "receiptAndSnapshotMatches": 130,
+  "sourceMatches": 235,
+  "contextMatches": 235,
+  "modelRequests": 235,
+  "realModelCalls": 0,
+  "reopenIdentical": true
+}

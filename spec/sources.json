@@ -1,0 +1,15 @@
+{
+  "design": "https://gist.github.com/VictorTaelin/91837951a5ce5b38f341ec1ba1df6449",
+  "adaptation": {
+    "repository": "https://github.com/jonaslsaa/pi-optchat",
+    "commit": "2bdbd4df63c696fabc06ee9bc616245083069097",
+    "localPath": ".references/pi-optchat",
+    "tracked": false
+  },
+  "oracle": {
+    "repository": "https://github.com/dearlordylord/unii-memory",
+    "commit": "7567c83f9b68a7d51c8971ade104a3d0a1f1ecde",
+    "localPath": "references/lisp",
+    "tracked": "git submodule"
+  }
+}
