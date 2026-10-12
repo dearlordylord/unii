@@ -4,6 +4,9 @@
   "description": "Independent UNII memory core with caller-owned compression and storage",
   "type": "module",
   "license": "MIT",
+  "repository": { "type": "git", "url": "git+https://github.com/dearlordylord/unii.git" },
+  "homepage": "https://github.com/dearlordylord/unii#readme",
+  "bugs": { "url": "https://github.com/dearlordylord/unii/issues" },
   "author": {
     "name": "Igor Loskutov",
     "email": "igor.loskutoff@gmail.com",

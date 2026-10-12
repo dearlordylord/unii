@@ -1,6 +1,6 @@
 # npm package preparation and release
 
-Package: `@dearlordylord/unii`, version `0.1.0`, public ESM with TypeScript declarations. The scope follows the existing GitHub handle; ownership of that npm scope must be verified with the publishing account. No remote repository URL is invented while this is a local repository.
+Package: `@dearlordylord/unii`, version `0.1.0`, public ESM with TypeScript declarations. Source repository: https://github.com/dearlordylord/unii. The scope follows the existing GitHub handle; ownership of that npm scope must be verified with the publishing account.
 
 Package fields and lifecycle configuration follow the [official npm package.json documentation](https://docs.npmjs.com/cli/v11/configuring-npm/package-json/).
 
@@ -22,9 +22,15 @@ Run `npm pack`, then install the resulting tarball in the consuming project. For
 ## Publish when requested
 
 ```sh
-npm whoami
+git clone --recurse-submodules https://github.com/dearlordylord/unii.git
+cd unii
+npm ci --ignore-scripts
+npm login --registry=https://registry.npmjs.org/
+npm whoami --registry=https://registry.npmjs.org/
 npm publish --dry-run
 npm publish --access public
 ```
 
-Publishing requires an authenticated account that controls the selected scope. The initial package preparation did not publish anything, reserve the name or verify npm scope ownership. Add the actual Git repository URL to package metadata once that repository exists. Subsequent releases need a new version and refreshed evidence for changed behavior.
+Use Node.js 22 or later and Emacs 29.1 or later: the publication hook runs the full checks, including the Lisp oracle. If the repository is already checked out, pull the latest main and initialize its submodules instead of cloning again.
+
+Publishing requires an authenticated account that controls the selected scope. For a personal scope, `npm whoami` must report `dearlordylord`. If it reports another username, change the package scope to that username before publishing, or use an organization scope you control. Complete npm's browser login and enable account 2FA for direct publication; respond to any verification prompt. The initial package preparation did not publish anything, reserve the name or verify npm scope ownership. Subsequent releases need a new version and refreshed evidence for changed behavior.
