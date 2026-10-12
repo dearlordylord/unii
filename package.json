@@ -1,5 +1,5 @@
 {
-  "name": "@dearlordylord/unii",
+  "name": "@firfi/unii",
   "version": "0.1.0",
   "description": "Independent UNII memory core with caller-owned compression and storage",
   "type": "module",

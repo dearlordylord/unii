@@ -6,12 +6,12 @@ The specification lives in [spec/MEMORY.md](spec/MEMORY.md). The current integra
 
 ## Install
 
-The npm package name is `@dearlordylord/unii` (UNII). This version is prepared for publication; it has not yet been published. After publication, install with `npm install @dearlordylord/unii`. Before publication, use the tarball built by `npm pack` or `npm link` for local development. This is an ESM package with TypeScript declarations.
+The npm package name is `@firfi/unii` (UNII). This version is prepared for publication; it has not yet been published. After publication, install with `npm install @firfi/unii`. Before publication, use the tarball built by `npm pack` or `npm link` for local development. This is an ESM package with TypeScript declarations.
 
 ## Use
 
 ```ts
-import { Memory, InMemoryStorage } from '@dearlordylord/unii';
+import { Memory, InMemoryStorage } from '@firfi/unii';
 
 const storage = new InMemoryStorage();
 const memory = await Memory.open({ storage });
