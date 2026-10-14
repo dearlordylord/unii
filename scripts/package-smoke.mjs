@@ -33,6 +33,8 @@ const storage: Storage = new InMemoryStorage();
 const backend: Backend = async request => request.source;
 const memory = await Memory.open({ storage, backend });
 try {
+  const retries: number = memory.retryFailed();
+  if (retries !== 0) throw new Error('Unexpected retry work');
   const receipt = await memory.append({ kind: 'user', text: 'Package consumer 🙂' });
   if (memory.snapshot({ before: receipt.endExclusive }).state !== 'ready') throw new Error('Snapshot incomplete');
 } finally { await memory.close(); }

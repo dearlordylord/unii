@@ -149,6 +149,18 @@ export class Memory {
     return {text,totalBytes:bytes(text),pages:1};
   }
   date(id:number):string {this.#check();if(!Number.isSafeInteger(id)||id<0||!this.#records[id])throw new Error('Invalid record ID');return this.#records[id]!.date;}
+  /** Requeue at most limit failed nodes without changing records or starting provider I/O. */
+  retryFailed(limit:number=this.#policy.concurrency):number {
+    this.#check();
+    if(!Number.isSafeInteger(limit)||limit<=0||limit>this.#policy.concurrency)throw new Error('Invalid retry limit');
+    let count=0;
+    for(const id of this.#failed.keys()) {
+      if(count===limit)break;
+      this.#failed.delete(id);count++;
+    }
+    if(count)this.#event('retry-eligible',{count});
+    return count;
+  }
   /** Schedule work without waiting for provider I/O. No autonomous retry timers. */
   step():void {
     this.#check();if(this.#pumping)return;this.#pumping=true;
