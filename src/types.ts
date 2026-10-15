@@ -27,6 +27,8 @@ export type Observation =
 export interface CompressionRequest {
   jobId: string; attemptId: string; attempt: number; node: Address;
   source: string; context: string; priorResponses: string[]; feedback: string | null;
+  /** Distinct journal record kinds covered by this node, excluding prior context. */
+  sourceKinds?: readonly string[];
 }
 export type Backend = (request: CompressionRequest, signal: AbortSignal, emit: (event: Observation) => void) => Promise<string>;
 export interface Policy {
@@ -37,6 +39,9 @@ export interface Policy {
 export interface MemoryOptions {
   storage?: Storage; backend?: Backend; policy?: Partial<Policy>;
   validate?: (request: CompressionRequest, text: string) => string | null;
+  /** Return false to stop this job after a backend failure; completed oversized summaries still refine.
+   * Defaults to true. A thrown classifier error fails the job without committing a candidate. */
+  shouldRetryBackendError?: (error: unknown) => boolean;
   now?: () => number;
 }
 export interface Snapshot {

@@ -24,7 +24,10 @@ try {
 }
 ```
 
-Short sources need no LLM. For longer sources, pass `backend` to `Memory.open` and call `settle()` to drive compression. The callback receives source, context and retry metadata, an AbortSignal, and an observation callback. Return the summary text. Report `{ kind: 'submission', payload }` for the actual provider request and `{ kind: 'usage', scope: 'attempt', counters: { input, output, cachedInput, cacheWriteInput } }` for available provider counters. Omit counters the provider does not report.
+Short sources need no LLM. For longer sources, pass `backend` to `Memory.open` and call `settle()` to drive compression. The callback receives source, context and retry metadata, an AbortSignal, and an observation callback. `request.sourceKinds` contains the distinct journal record kinds covered by the requested node (including parent nodes), excludes prior context, and never derives provenance from source text. Return the summary text. Report `{ kind: 'submission', payload }` for the actual provider request and `{ kind: 'usage', scope: 'attempt', counters: { input, output, cachedInput, cacheWriteInput } }` for available provider counters. Omit counters the provider does not report.
+
+Set `shouldRetryBackendError(error)` to stop automatic attempts for host-classified permanent failures (return `false`). It defaults to retrying up to `policy.maxAttempts`. This only classifies thrown failures; completed oversized summaries still receive refinement feedback. A previous completed candidate remains eligible, but failed or interrupted output is never accepted. A throwing classifier fails the job closed. After recovery, `retryFailed()` requeues failed nodes without adding records or starting provider I/O; call `step()` or `settle()` to run them.
+
 
 Use `attempts()`, `usage()`, `status()` and `subscribe()` for diagnostics. `records()`, `nodes()`, `zoom()` and `date()` expose stored material. A pending or failed snapshot has no usable prompt text.
 

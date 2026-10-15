@@ -9,7 +9,7 @@ const counterNames = ['input','output','cachedInput','cacheWriteInput'] as const
 interface Job { id: string; node: Address; controller: AbortController }
 export class Memory {
   #storage: Storage; #backend: Backend | undefined; #policy: Policy;
-  #validate: MemoryOptions['validate']; #now: () => number;
+  #validate: MemoryOptions['validate']; #shouldRetryBackendError: (error: unknown) => boolean; #now: () => number;
   #records: MemoryRecord[] = []; #nodes = new Map<string,Summary>();
   #main: View; #compaction: View; #cursor = 0;
   #leaves = new Map<string,Address>(); #parents = new Map<string,Address>();
@@ -22,6 +22,7 @@ export class Memory {
   private constructor(options: MemoryOptions) {
     this.#storage = options.storage ?? new InMemoryStorage(); this.#backend = options.backend;
     this.#policy = { ...defaults, ...options.policy }; this.#validate = options.validate; this.#now = options.now ?? Date.now;
+    this.#shouldRetryBackendError = options.shouldRetryBackendError ?? (() => true);
     for (const [name,n] of Object.entries(this.#policy)) {
       if (name === 'resultKind') { if (typeof n !== 'string' || !n) throw new Error('Invalid resultKind'); continue; }
       if (!Number.isSafeInteger(n) || Number(n) <= 0) throw new Error(`Invalid policy ${name}`);
@@ -186,7 +187,7 @@ export class Memory {
     let best:string|null=null,feedback:string|null=null;const priorResponses:string[]=[];
     for(let number=1;number<=this.#policy.maxAttempts;number++) {
       if(this.#closed||job.controller.signal.aborted)return;
-      const request:CompressionRequest={jobId:job.id,attemptId:`${job.id}:${number}`,attempt:number,node:{...job.node},source,context,priorResponses:[...priorResponses],feedback};
+      const request:CompressionRequest={jobId:job.id,attemptId:`${job.id}:${number}`,attempt:number,node:{...job.node},source,context,priorResponses:[...priorResponses],feedback,sourceKinds:[...new Set(this.#records.slice(start(job.node),end(job.node)).map(record=>record.kind))]};
       const attempt:Attempt={id:request.attemptId,jobId:job.id,node:{...job.node},number,state:'running',request:structuredClone(request),payload:null,payloadObserved:false,response:null,error:null,events:[],usage:{}};
       this.#attempts.push(attempt);this.#usage.started++;this.#trim();this.#event('attempt-started',{id:attempt.id,node:job.node});
       try {
@@ -206,6 +207,7 @@ export class Memory {
         if(this.#closed||job.controller.signal.aborted){attempt.state='cancelled';return;}
         attempt.state='failed';attempt.error=String(error);feedback=String(error);
         if(this.#fatal)throw error;
+        if(!this.#shouldRetryBackendError(error)){this.#event('attempt-finished',{id:attempt.id});break;}
       }
       this.#event('attempt-finished',{id:attempt.id});
     }
