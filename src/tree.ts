@@ -43,15 +43,18 @@ export class View {
   constructor(readonly high: number, readonly low: number, private readonly node: (p: Address) => Summary | undefined) {}
   get size(): number { return bytes(render(this.parts, this.node)); }
   fit(total: number): boolean {
-    if (this.size > this.high) this.batching = true;
+    let size = this.size;
+    if (size > this.high) this.batching = true;
     let changed = false;
-    while (this.batching && this.size > this.low) {
+    while (this.batching && size > this.low) {
       const i = mostDue(this.parts, total, p => !!this.node(p));
       if (i < 0) break;
-      const a = this.parts[i]!;
-      this.parts.splice(i, 2, { level: a.level + 1, index: a.index / 2 }); changed = true;
+      const a = this.parts[i]!, b = this.parts[i + 1]!;
+      const parent = { level: a.level + 1, index: a.index / 2 };
+      size += bytes(render([parent], this.node)) - bytes(render([a, b], this.node));
+      this.parts.splice(i, 2, parent); changed = true;
     }
-    if (this.size <= this.low) this.batching = false;
+    if (size <= this.low) this.batching = false;
     return changed;
   }
 }
